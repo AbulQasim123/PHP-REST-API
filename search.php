@@ -3,12 +3,14 @@
     header('Access-Control-Allow-Origin: *');
 
     $data = json_decode(file_get_contents("php://input"),true);
-    $nameSearch = $data['nameSearch'];
-    $citySearch = $data['citySearch'];
+    // $nameSearch = $data['nameSearch'];
+
+    $nameSearch = isset($_GET['search']) ? $_GET['search']: die();
+
 
     include "config.php";
 
-    $sql = "SELECT * FROM students WHERE name LIKE '%{$nameSearch}%' OR city LIKE '%{$citySearch}%' ";
+    $sql = "SELECT * FROM students WHERE name LIKE '%{$nameSearch}%' OR age LIKE '%{$nameSearch}%' OR city LIKE '%{$nameSearch}%'";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     if($stmt->rowCount()){
